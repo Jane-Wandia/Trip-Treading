@@ -4,13 +4,13 @@ module Api
             def index 
                 airlines = Airline.all
 
-                render json: AirlineSerializer.new(airlines).serialized_json
+                render json: AirlineSerializer.new(airlines,options).serialized_json
         end
 
         def show
             airline = airline.find_by(slug: params[:slug])
 
-             render json: AirlineSerializer.new(airline).serialized_json
+             render json: AirlineSerializer.new(airline, options).serialized_json
         end
 
         def create
@@ -47,5 +47,12 @@ module Api
 
         def airline_params
             params.require(:airline).permit(:name, :image_url)
+        end
+
+        def options
+            @options ||* {include: %i[reviews]}
+            end
+        end
     end
 end
+
